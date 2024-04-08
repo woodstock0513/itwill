@@ -32,9 +32,10 @@ public class ListMain04 {
         
         System.out.println("----------------------------");
         
-        List<Integer> codes = Arrays.asList(0, 1, 0, 1, 1, 0);
+       
         
         // 3. codes의 원소가 0이면 "남성", 1이면 "여성"을 저장하는 ArrayList를 만들고 출력.
+        List<Integer> codes = Arrays.asList(0, 1, 0, 1, 1, 0);
         ArrayList<String> gender = new ArrayList<>();
         for (int i : codes) {
         	if (i == 0) {
@@ -42,6 +43,7 @@ public class ListMain04 {
         	} else {
         		gender.add("여성");
         	}
+//        	gender.add((i==0 ? "남성" : "여성")); 로도 ㄱㄴ
         }
         System.out.println(gender);
         
