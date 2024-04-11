@@ -54,7 +54,14 @@ public class ContactMain03 {
 			System.out.println("해당 인덱스에는 삭제할 정보가 없습니다.");
 			return;
 		}
-		dao.delete(index);
+		int result = dao.delete(index);
+		
+		//하고 나서 성공 여부 알려줘야!
+		if (result == 1) {
+			System.out.println(">>> 연락처 삭제 성공");
+		} else {
+			System.out.println(">>> 연락처 삭제 실패");
+		}
 
 		ContactMain03 list = new ContactMain03();
 		list.readAllContacts();
@@ -106,9 +113,9 @@ public class ContactMain03 {
 		System.out.print("인덱스 입력>> ");
 		int index = inputInteger();
 
-		if (!((ContactDaoImpl) dao).isValidIndex(index)) {
+		if (!((ContactDaoImpl) dao).isValidIndex(index)) { //캐스팅. isValid는 다오에 없고 impl에만 잇기 때문.
 			System.out.println("해당 인덱스에는 연락처 정보가 없습니다.");
-			return;
+			return; //여기서 검사하거나 impl에서 검사 후 리턴하거나 한번만 검사하면 됨.
 		}
 
 		Contact contact = dao.read(index);
