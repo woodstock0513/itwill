@@ -1,4 +1,4 @@
-package com.itwill.file05;
+		package com.itwill.file05;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -50,7 +50,10 @@ public class FileMain05 {
 			ObjectInputStream ois = new ObjectInputStream(bis);
 		){
 			ArrayList<Product > p = (ArrayList<Product>) ois.readObject();
-			System.out.println(p);
+			
+			System.out.println(p.size());
+			System.out.println(p.getFirst()); //=p.get(0)
+			System.out.println(p.getLast()); //=p.get(p.size()-1)  p.get(999999) 말고!!!
 
 		}catch(Exception e) {
 			e.printStackTrace();
