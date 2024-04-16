@@ -1,0 +1,105 @@
+package com.itwill.swing05;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.JButton;
+import javax.swing.JTextArea;
+import javax.swing.SwingConstants;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
+public class AppMain05 {
+
+	private JFrame frame;
+	private JTextField textName;
+	private JTextField textPhone;
+	private JTextField textEmail;
+	private String name;
+	private String phone;
+	private String email;
+	private JTextArea textArea;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					AppMain05 window = new AppMain05();
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the application.
+	 */
+	public AppMain05() {
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frame = new JFrame();
+		frame.setBounds(100, 100, 405, 416);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(null);
+		
+		JLabel lblName = new JLabel("이름");
+		lblName.setHorizontalAlignment(SwingConstants.CENTER);
+		lblName.setBounds(12, 20, 82, 39);
+		frame.getContentPane().add(lblName);
+		
+		textName = new JTextField();
+		textName.setBounds(110, 20, 159, 39);
+		frame.getContentPane().add(textName);
+		textName.setColumns(10);
+		
+		JLabel lblPhone = new JLabel("전화번호");
+		lblPhone.setHorizontalAlignment(SwingConstants.CENTER);
+		lblPhone.setBounds(12, 83, 82, 39);
+		frame.getContentPane().add(lblPhone);
+		
+		textPhone = new JTextField();
+		textPhone.setColumns(10);
+		textPhone.setBounds(110, 83, 159, 39);
+		frame.getContentPane().add(textPhone);
+		
+		JLabel lblEmail = new JLabel("이메일");
+		lblEmail.setHorizontalAlignment(SwingConstants.CENTER);
+		lblEmail.setBounds(12, 146, 82, 39);
+		frame.getContentPane().add(lblEmail);
+		
+		textEmail = new JTextField();
+		textEmail.setColumns(10);
+		textEmail.setBounds(110, 146, 159, 39);
+		frame.getContentPane().add(textEmail);
+		
+		JButton btnInput = new JButton("입력");
+		btnInput.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				name = textName.getText();
+				phone = textPhone.getText();
+				email = textEmail.getText();
+				String contact = String.format("Name : %s\nPhone : %s\nEmail : %s", name,phone,email);
+				textArea.setText(contact);
+			}
+		});
+		btnInput.setBounds(280, 162, 97, 23);
+		frame.getContentPane().add(btnInput);
+		
+		textArea = new JTextArea();
+		textArea.setBounds(28, 218, 333, 123);
+		frame.getContentPane().add(textArea);
+	}
+
+}
