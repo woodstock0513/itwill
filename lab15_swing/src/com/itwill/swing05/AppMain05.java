@@ -10,6 +10,8 @@ import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JScrollPane;
+import java.awt.Font;
 
 public class AppMain05 {
 
@@ -21,6 +23,7 @@ public class AppMain05 {
 	private String phone;
 	private String email;
 	private JTextArea textArea;
+	private JScrollPane scrollPane;
 
 	/**
 	 * Launch the application.
@@ -85,21 +88,30 @@ public class AppMain05 {
 		frame.getContentPane().add(textEmail);
 		
 		JButton btnInput = new JButton("입력");
-		btnInput.addActionListener(new ActionListener() {
+		btnInput.addActionListener(new ActionListener() { //익명클래스
 			public void actionPerformed(ActionEvent e) {
 				name = textName.getText();
 				phone = textPhone.getText();
 				email = textEmail.getText();
-				String contact = String.format("Name : %s\nPhone : %s\nEmail : %s", name,phone,email);
-				textArea.setText(contact);
+				String contact = String.format("Name : %s, Phone : %s, Email : %s\n", name,phone,email);
+//				textArea.setText(contact);  //계속 새로 쓰는거
+				textArea.append(contact);   //추가하는거
+				//모든 JTextDield에 입력된 내용을 지움
+				textName.setText(null);
+				textPhone.setText(null);
+				textEmail.setText(null);
+				//이걸 다 묶어서 그냥 메서드 처리하고 해도 될 듯
 			}
 		});
 		btnInput.setBounds(280, 162, 97, 23);
 		frame.getContentPane().add(btnInput);
 		
+		scrollPane = new JScrollPane();
+		scrollPane.setBounds(28, 218, 333, 123);
+		frame.getContentPane().add(scrollPane);
+		
 		textArea = new JTextArea();
-		textArea.setBounds(28, 218, 333, 123);
-		frame.getContentPane().add(textArea);
+		textArea.setFont(new Font("D2Coding", Font.PLAIN, 18));
+		scrollPane.setViewportView(textArea);
 	}
-
 }
