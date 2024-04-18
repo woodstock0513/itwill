@@ -4,12 +4,15 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+
+import com.itwill.swing07.MyFrame.Notifiable;
+
 import javax.swing.JButton;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class AppMain07 {
+public class AppMain07 implements Notifiable {
 
 	private JFrame frame;
 	private JButton btnMsgDlg;
@@ -17,7 +20,7 @@ public class AppMain07 {
 	private JButton btnInputDlg;
 	private JButton btnCustomDlg;
 	private JButton btnMyFrame;
-	
+	@Override //impl 전까진, appmain07의 메서드였는데 이젠 no의 메서드를 구현한 것이됨.
 	public void notifyMessage(String msg) {
 		btnMyFrame.setText(msg);
 	}
@@ -129,6 +132,9 @@ public class AppMain07 {
 			public void actionPerformed(ActionEvent e) {
 				//내가 만든 프레임 보여주기
 				MyFrame.showMyFrame(frame,AppMain07.this); //appmain07의 주소값을 넘기는 것.
+				//아규먼트 frame : Myframe 클래스가 부모컴포넌트 정보를 사용할  수 있도록
+				//아규먼트 AppMain07.this : AppMain07 타입으로 생성된 객체(의 주소). 현재 객체
+				// myframe 클래스에서 appmain07 객체의 public 메서드르 호출할 수 있도록!
 			}
 		});
 		btnMyFrame.setFont(new Font("D2Coding", Font.PLAIN, 14));

@@ -15,6 +15,10 @@ import java.awt.event.ActionEvent;
 import java.awt.Font;
 
 public class MyFrame extends JFrame {
+	
+	public interface Notifiable{
+		public void notifyMessage(String msg);
+	}
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
@@ -22,13 +26,14 @@ public class MyFrame extends JFrame {
 	private JTextField textField;
 	
 	private Component parentComponent; //부모 컴포넌트를 저장하기 위한 필드
-	private AppMain07 app; //메인 쓰레드 주소
+//	private AppMain07 app; //메인 쓰레드 주소
+	private Notifiable app; //notifyMessage(String msg) 메서드를 갖는 객체의 주소를 저장.
 	
 	/**
 	 * Launch the application.
 	 * @param app 
 	 */
-	public static void showMyFrame(Component parentComponent, AppMain07 app) {
+	public static void showMyFrame(Component parentComponent, Notifiable app) {
 		//Component
 		//|__JFrame, JDialog
 		EventQueue.invokeLater(new Runnable() {
@@ -43,7 +48,7 @@ public class MyFrame extends JFrame {
 		});
 	}
 
-	public MyFrame(Component parentComponent, AppMain07 app) {
+	public MyFrame(Component parentComponent, Notifiable app) {
 		this.parentComponent = parentComponent;
 		this.app = app;
 		initialize();
@@ -54,17 +59,17 @@ public class MyFrame extends JFrame {
 	 */
 	public void initialize() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		int x=700;
-		int y=300;
-		if (parentComponent != null) {
-			x = parentComponent.getX(); //부모 컴포넌트의 x 좌표 
-			y = parentComponent.getY();   //부모 컴포넌트의 y 좌표
-		}
-		setBounds(x,y, 450, 300);
-		
-		if (parentComponent == null) { //부모 컴포넌트 정보가 없을 때, 화면 중앙에 띄우겟다.
-			setLocationRelativeTo(null);
-		}
+			int x=700;
+			int y=300;
+			if (parentComponent != null) {
+				x = parentComponent.getX(); //부모 컴포넌트의 x 좌표 
+				y = parentComponent.getY();   //부모 컴포넌트의 y 좌표
+			}
+			setBounds(x,y, 450, 300);
+			
+			if (parentComponent == null) { //부모 컴포넌트 정보가 없을 때, 화면 중앙에 띄우겟다.
+				setLocationRelativeTo(null);
+			}
 	
 		
 		contentPane = new JPanel();
@@ -87,6 +92,7 @@ public class MyFrame extends JFrame {
 				
 				//main클래스.메서드(msg)를 하면 메인에 읽은 값을 저장할 수 있지 않을까?
 				//-> main에 가서 하나 만들기~ public으로!
+				
 				app.notifyMessage(msg);
 				
 			}
