@@ -17,6 +17,10 @@ public class AppMain07 {
 	private JButton btnInputDlg;
 	private JButton btnCustomDlg;
 	private JButton btnMyFrame;
+	
+	public void notifyMessage(String msg) {
+		btnMyFrame.setText(msg);
+	}
 
 	/**
 	 * Launch the application.
@@ -41,6 +45,7 @@ public class AppMain07 {
 		initialize();
 	}
 
+	
 	/**
 	 * Initialize the contents of the frame.
 	 */
@@ -123,7 +128,7 @@ public class AppMain07 {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				//내가 만든 프레임 보여주기
-				MyFrame.showMyFrame();
+				MyFrame.showMyFrame(frame,AppMain07.this); //appmain07의 주소값을 넘기는 것.
 			}
 		});
 		btnMyFrame.setFont(new Font("D2Coding", Font.PLAIN, 14));
