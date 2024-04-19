@@ -125,5 +125,4 @@ public class ContactSearchFrame extends JFrame {
 		table.setModel(model);
 
 	}
-
 }
