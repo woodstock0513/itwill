@@ -17,11 +17,12 @@ import com.itwill.ver05.controller.ContactDao;
 import com.itwill.ver05.controller.ContactDaoImpl;
 import com.itwill.ver05.model.Contact;
 import com.itwill.ver05.view.ContactCreateFrame.CreateNotify;
+import com.itwill.ver05.view.ContactUpdateFrame.UpdateNotify;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class ContactMain05 implements CreateNotify {
+public class ContactMain05 implements CreateNotify, UpdateNotify {
 
 	private static final String[] COLUNM_NAMES = {"이름", "전화번호"};  // static final 필수
 	
@@ -91,6 +92,7 @@ public class ContactMain05 implements CreateNotify {
 		buttonPanel.add(btnUpdate);
 		
 		btnSearch = new JButton("연락처 검색");
+		btnSearch.addActionListener((e)-> ContactSearchFrame.showContactSearchFrame(frame));
 		btnSearch.setFont(new Font("더잠실 3 Regular", Font.PLAIN, 16));
 		buttonPanel.add(btnSearch);
 		
@@ -108,7 +110,9 @@ public class ContactMain05 implements CreateNotify {
 		panel.add(scrollPane);
 		
 		table = new JTable();
-		table.setFont(new Font("더잠실 3 Regular", Font.PLAIN, 12));
+		table.getTableHeader().setFont(new Font("더잠실 3 Regular", Font.PLAIN, 14));
+		table.setFont(new Font("더잠실 3 Regular", Font.PLAIN, 14));
+		table.setRowHeight(20);
 		model = new DefaultTableModel(null, COLUNM_NAMES);
 		table.setModel(model);
 		scrollPane.setViewportView(table);
@@ -121,8 +125,9 @@ public class ContactMain05 implements CreateNotify {
 			JOptionPane.showMessageDialog(frame, "수정할 연락처를 선택하세요");
 			return;
 		}
-		ContactUpdateFrame.showContactUpdateFrame(frame, index);
-		resetTable();
+		//수정 프레임 (JFrame) 실행
+		ContactUpdateFrame.showContactUpdateFrame(frame, index,this);
+//		resetTable();
 	}
 
 	private void deleteContact() {
@@ -181,5 +186,15 @@ public class ContactMain05 implements CreateNotify {
 		loadContactData();
 		//새 연락처가 추가된 data를 로딩
 		table.setModel(model);
+	}
+
+	@Override
+	public void notifyContactUpdated() {
+//		ContactUpdateFrame에서 연락처 정보를 성공적으로 업데이트 하면 호출하는 메서드
+		//테이블을 리셋
+		resetTable();
+		
+		JOptionPane.showMessageDialog(frame, "연락처 수정 성공");
+		
 	}
 }

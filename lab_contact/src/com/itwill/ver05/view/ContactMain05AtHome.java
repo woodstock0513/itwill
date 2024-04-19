@@ -21,7 +21,7 @@ import com.itwill.ver05.view.ContactCreateFrame.CreateNotify;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class ContactMain05 implements CreateNotify {
+public class ContactMain05AtHome implements CreateNotify {
 
 	private static final String[] COLUNM_NAMES = {"이름", "전화번호"};  // static final 필수
 	
@@ -47,7 +47,7 @@ public class ContactMain05 implements CreateNotify {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ContactMain05 window = new ContactMain05();
+					ContactMain05AtHome window = new ContactMain05AtHome();
 					//생성자 호출( initialize,load~~까지 실행완) 하고 나면 이제 frame을 보여준다.
 					window.frame.setVisible(true);
 				} catch (Exception e) {
@@ -60,7 +60,7 @@ public class ContactMain05 implements CreateNotify {
 	/**
 	 * Create the application.
 	 */
-	public ContactMain05() {
+	public ContactMain05AtHome() {
 		//intialize 전에 필드 변수들 내용들이 실행됨 (=으로 저장하는 애들)
 		//위의 싱글턴 구문이 먼저 실행되는 것(생성자 호출 등등) 그 이후에 initialize 실행
 		initialize(); //UI 컴포넌트들을 초기화
@@ -116,7 +116,7 @@ public class ContactMain05 implements CreateNotify {
 	}
 	
 	private void searchContact(JFrame frame) {
-		ContactSearchFrame.showContactSearchFrame(frame);
+		ContactSearchFrameAtHome.showContactSearchFrame(frame);
 
 		
 	}
@@ -128,7 +128,7 @@ public class ContactMain05 implements CreateNotify {
 			JOptionPane.showMessageDialog(frame, "수정할 연락처를 선택하세요");
 			return;
 		}
-		ContactUpdateFrame.showContactUpdateFrame(frame, index);
+		ContactUpdateFrameAtHome.showContactUpdateFrame(frame, index);
 		resetTable(); //도대체 왜 안되는거야.....
 	}
 

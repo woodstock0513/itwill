@@ -67,19 +67,8 @@ public class ContactUpdateFrameAtHome extends JFrame {
 		this.index = index;
 		this.parentComponent = pc;
 		initialize();
-		initializeTextField();
 	}
-	
-	private void initializeTextField() { 
-		// 3개의 텍스트 필드에 해당 인덱스의 연락처 정보를 채움
-		// (내가 만든 updateContact랑 같은 거인듯. 아닌가..?)
-		//근데이건수정후꺼를 보여주는거아닌가
-		Contact contact = dao.read(index);
-		textName.setText(contact.getName());
-		textPhone.setText(contact.getPhone());
-		textEmail.setText(contact.getEmail());
-		
-	}
+
 	
 	public void initialize() {
 		setTitle("연락처 수정");

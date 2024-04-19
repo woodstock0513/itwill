@@ -1,5 +1,6 @@
 package com.itwill.ver05.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.itwill.ver05.model.Contact;
@@ -85,6 +86,20 @@ public class ContactDaoImpl implements ContactDao {
 		} else {
 			return 0;
 		}
+	}
+
+	@Override
+	public List<Contact> search(String keyword) {
+		List<Contact> result = new ArrayList<>();
+		for (Contact c: contacts) { //대소문자 구분없이 검색하기 위해
+			if (c.getName().toLowerCase().contains(keyword.toLowerCase()) 
+					|| c.getPhone().toLowerCase().contains(keyword.toLowerCase())
+					|| c.getEmail().toLowerCase().contains(keyword.toLowerCase())
+					) {
+				result.add(c);
+			}
+		}
+		return result;
 	}
 
 }

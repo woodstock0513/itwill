@@ -22,7 +22,7 @@ import java.util.List;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
-public class ContactSearchFrame extends JFrame {
+public class ContactSearchFrameAtHome extends JFrame {
 
 	private static final String[] COLUNM_NAMES = {"이름", "전화번호", "이메일"};
 	private static final long serialVersionUID = 1L;
@@ -43,7 +43,7 @@ public class ContactSearchFrame extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ContactSearchFrame frame = new ContactSearchFrame(pc);
+					ContactSearchFrameAtHome frame = new ContactSearchFrameAtHome(pc);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -55,7 +55,7 @@ public class ContactSearchFrame extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public ContactSearchFrame(Component pc) {
+	public ContactSearchFrameAtHome(Component pc) {
 		this.parentComponent = pc;
 		initialize();
 	}
