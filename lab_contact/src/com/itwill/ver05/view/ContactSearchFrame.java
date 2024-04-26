@@ -103,7 +103,6 @@ public class ContactSearchFrame extends JFrame {
 		
 		//테이블의 행 높이 설정
 		table.setRowHeight(20);
-		
 		model = new DefaultTableModel(null, COLUMN_NAMES);
 		table.setModel(model);
 		scrollPane.setViewportView(table);
