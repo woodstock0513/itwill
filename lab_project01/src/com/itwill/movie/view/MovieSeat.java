@@ -104,6 +104,16 @@ public class MovieSeat extends JFrame {
 
 	}
 	
+	private void selectSeat() {
+		// TODO 좌석 상태 바꾸고 메세지 창 띄우기
+		
+		
+		
+		
+	}
+	
+	
+	
 	private String getInfo(int index) {
 		//index+1에 해당하는 열의 영화 이름, 영화 시간 알아오기
 		Movie movie = dao.readOneNameAndDate(index);
