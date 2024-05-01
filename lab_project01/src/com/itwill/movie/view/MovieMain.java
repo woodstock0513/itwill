@@ -22,6 +22,10 @@ import com.itwill.movie.model.Movie;
 import java.awt.Font;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.JScrollPane;
+
 
 public class MovieMain {
 	
@@ -31,7 +35,7 @@ public class MovieMain {
 			"images/mov3.jpg"
 	};
 
-	private static final String[] SEARCH_NAMES = { "로봇드림", "쿵푸팬더4", "웡카"};
+	private static final String[] SEARCH_NAMES = { "로봇 드림", "쿵푸팬더4", "웡카"};
 	private static final String[] COLUMN_NAMES = {"영화 이름", "상영시간"};
 	
 	private MovieDao dao = MovieDao.getInstance();
@@ -49,6 +53,8 @@ public class MovieMain {
 	private JButton btnSelect;
 	private String info = "영화를 고르세요.";
 	private JButton btnSeeAll;
+	private JButton btnLogin;
+	private int memno;
 
 	/**
 	 * Launch the application.
@@ -78,8 +84,9 @@ public class MovieMain {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 459, 613);
+		frame = new JFrame();	
+		frame.setTitle("☆인기 영화 예매 사이트☆");
+		frame.setBounds(700, 300, 459, 613);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
@@ -109,23 +116,17 @@ public class MovieMain {
 		lblMovInfo.setFont(new Font("더잠실 2 Light", Font.PLAIN, 15));
 		lblMovInfo.setBounds(37, 199, 377, 46);
 		frame.getContentPane().add(lblMovInfo);
-		
-		table = new JTable();
-		table.setFont(new Font("더잠실 2 Light", Font.PLAIN, 16));
-		tableModel = new DefaultTableModel(null, COLUMN_NAMES);
-		table.setModel(tableModel);
-		table.setBounds(37, 268, 375, 212);
-		frame.getContentPane().add(table);
-		
+
 		btnNext = new JButton("다음");
 		btnNext.addActionListener((e) -> findMovieSeat());
 		btnNext.setFont(new Font("더잠실 2 Light", Font.PLAIN, 14));
-		btnNext.setBounds(323, 501, 89, 46);
+		btnNext.setBounds(336, 501, 76, 46);
 		frame.getContentPane().add(btnNext);
 		
 		btnRes = new JButton("예약확인");
+		btnRes.addActionListener((e) -> checkReservation());
 		btnRes.setFont(new Font("더잠실 2 Light", Font.PLAIN, 14));
-		btnRes.setBounds(37, 501, 151, 46);
+		btnRes.setBounds(118, 501, 99, 46);
 		frame.getContentPane().add(btnRes);
 		
 		btnSelect = new JButton("확인");
@@ -137,19 +138,56 @@ public class MovieMain {
 		btnSeeAll = new JButton("전체보기");
 		btnSeeAll.addActionListener((e) -> initializeTable());
 		btnSeeAll.setFont(new Font("더잠실 2 Light", Font.PLAIN, 14));
-		btnSeeAll.setBounds(200, 501, 111, 46);
+		btnSeeAll.setBounds(229, 501, 91, 46);
 		frame.getContentPane().add(btnSeeAll);
+		
+		btnLogin = new JButton("로그인");
+		btnLogin.addActionListener((e)-> loginOrNot());
+		btnLogin.setFont(new Font("더잠실 2 Light", Font.PLAIN, 14));
+		btnLogin.setBounds(30, 501, 76, 46);
+		frame.getContentPane().add(btnLogin);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(30, 255, 382, 236);
+		frame.getContentPane().add(scrollPane);
+		
+		table = new JTable();
+		tableModel = new DefaultTableModel(null, COLUMN_NAMES);
+		scrollPane.setViewportView(table);
+		table.getTableHeader().setFont(new Font("더잠실 3 Regular", Font.PLAIN, 14));
+		table.setFont(new Font("더잠실 2 Light", Font.PLAIN, 16));
+		table.setModel(tableModel);
 		
 		
 		
 	}
 	
 	
+	private void loginOrNot() {
+		if (MovieLogin.MEMNO == 0) {
+			MovieLogin.showLogin();
+		} else {
+			JOptionPane.showMessageDialog(frame, "이미 로그인 된 상태입니다.");
+		}
+	}
+
+	private void checkReservation() {
+		// TODO movie login에서 받은 memno을 이용해 예약 확인
+		if (MovieLogin.MEMNO == 0) {
+			JOptionPane.showMessageDialog(frame, "비회원은 예약 현황을 볼 수 없습니다.");
+		} else {
+			MyReservations.showMyReservations();
+		}
+		
+	}
+
 	private void findMovieSeat() {
 		// TODO 테이블 어디 눌렀는지 확인 -> 인덱스 가져와서 seat이랑 연동
 		int index = table.getSelectedRow();
 		if (index==-1) {
-			JOptionPane.showMessageDialog(frame, "상영시간을 선택하세요", "경고", JOptionPane.WARNING_MESSAGE);
+			JLabel label = new JLabel("상영시간을 선택하세요");
+			label.setFont(new Font("더잠실 3 Regular", Font.PLAIN, 15));
+			JOptionPane.showMessageDialog(frame, label, "경고", JOptionPane.WARNING_MESSAGE);
 			return;
 		}
 		
@@ -168,7 +206,7 @@ public class MovieMain {
 	}
 	
 	private void showMovieTimes() {
-		// TODO 콤보박스 어디 눌럿는지 확인 -> 그게 무슨 영화인지 확인 -> 그거의 시간표 불러오기
+		// 콤보박스 어디 눌럿는지 확인 -> 그게 무슨 영화인지 확인 -> 그거의 시간표 불러오기
 		int index = comboBox.getSelectedIndex();
 		List<Movie> result = null;
 		switch (index) {
@@ -201,5 +239,4 @@ public class MovieMain {
 		}
 		table.setModel(tableModel);
 	}
-	
 }
