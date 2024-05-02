@@ -9,36 +9,46 @@ public class Movie {
 		
 		public static final String TBL_MOVIES = "MOVIES";
 		public static final String TBL_TIMES = "TIMES";
-		public static final String TBL_SEAT = "SEAT";
+		public static final String TBL_SEAT = "SEATS";
 		public static final String TBL_RESERVATIONS = "RESERVATIONS";
 		
-		public static final String COL_MOVNO = "MOVNO";
-		public static final String COL_MOVINFO = "MOVINFO";
-		public static final String COL_MNAME = "MNAME";
-		public static final String COL_MDATE = "MDATE";
-		public static final String COL_TNUM = "TIMENUM";
+		public static final String COL_MOVIE_NO = "MOVIE_NO";
+		public static final String COL_MOVIE_INFO = "MOVIE_INFO";
+		public static final String COL_MOVIE_NAME = "MOVIE_NAME";
+		public static final String COL_MOVIE_DATE = "MOVIE_DATE";
+		public static final String COL_TIME_NO = "TIME_NO";
 		public static final String COL_STATE = "STATE";
-		public static final String COL_KEY = "KEY";
-		public static final String COL_SEATNO = "SEATNO";
-		public static final String COL_RESERVNO = "RESERVNO";
-		public static final String COL_MEMNO = "MEMNO";
-		public static final String COL_RESERVTIME = "RESERVTIME";
+		public static final String COL_SEAT_ID = "SEAT_ID";
+		public static final String COL_SEAT_NO = "SEAT_NO"; 
+		public static final String COL_RESERVATION_NO = "RESERVATION_NO";
+		public static final String COL_MEMBER_NO = "MEMBER_NO";
+		public static final String COL_RESERVATION_TIME = "RESERVATION_TIME";
 		
 	}
 	
-	private String mname;
-	private LocalDateTime mdate;
-	private String movinfo;
+	private String movieName;
+	private LocalDateTime movieDate;
+	private String movieInfo;
 	
-	private int memno;
+	private int memberNo;
 	private int seatNo;
 	private LocalDateTime reservtime;
+	private int reservationNo;
 	
-	public Movie( String mname, LocalDateTime reservtime, int seatNo,LocalDateTime mdate) {
-		this.mname = mname;
+	public Movie( String mname, LocalDateTime reservtime, int seatNo,LocalDateTime mdate, int reservationNo) {
+		this.movieName = mname;
 		this.reservtime = reservtime;
-		this.mdate = mdate;
+		this.movieDate = mdate;
 		this.seatNo = seatNo;
+		this.reservationNo = reservationNo;
+	}
+	
+	public int getReservationNo() {
+		return reservationNo;
+	}
+	
+	public void setReservationNo(int reservationNo) {
+		this.reservationNo = reservationNo;
 	}
 
 	public LocalDateTime getReservtime() {
@@ -50,11 +60,11 @@ public class Movie {
 	}
 
 	public int getMemno() {
-		return memno;
+		return memberNo;
 	}
 
 	public void setMemno(int memno) {
-		this.memno = memno;
+		this.memberNo = memno;
 	}
 
 	public int getSeatNo() {
@@ -67,33 +77,33 @@ public class Movie {
 
 	//info를 저장하는 생성자
 	public Movie(String movinfo) {
-		this.movinfo = movinfo;
+		this.movieInfo = movinfo;
 	}
 
 	public String getMovinfo() {
-		return movinfo;
+		return movieInfo;
 	}
 
 	public void setMovinfo(String movinfo) {
-		this.movinfo = movinfo;
+		this.movieInfo = movinfo;
 	}
 
 
 	public Movie(String mname, LocalDateTime mdate) {
-		this.mname = mname;
-		this.mdate = mdate;
+		this.movieName = mname;
+		this.movieDate = mdate;
 	}
-	public String getMname() {
-		return mname;
+	public String getMovieName() {
+		return movieName;
 	}
 	public void setMname(String mname) {
-		this.mname = mname;
+		this.movieName = mname;
 	}
-	public LocalDateTime getMdate() {
-		return mdate;
+	public LocalDateTime getMovieDate() {
+		return movieDate;
 	}
 	public void setMdate(LocalDateTime mdate) {
-		this.mdate = mdate;
+		this.movieDate = mdate;
 	}
 	
 

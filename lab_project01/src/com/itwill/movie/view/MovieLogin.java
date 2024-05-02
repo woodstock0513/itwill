@@ -20,6 +20,12 @@ import javax.swing.JButton;
 
 public class MovieLogin extends JFrame {
 	
+	public static interface notifyLogin{
+		public void setText();
+	}
+	
+	
+	
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField textFieldPassword;
@@ -29,16 +35,18 @@ public class MovieLogin extends JFrame {
 	private String id;	
 	private String password;
 	private MemberDao dao = MemberDao.getInstance();
-	public static int MEMNO = 0;
+	public static int MEMBER_NO = 0;
+	
+	private notifyLogin app;
 
 	/**
 	 * Launch the application.
 	 */
-	public static void showLogin() {
+	public static void showLogin(notifyLogin app) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					MovieLogin frame = new MovieLogin();
+					MovieLogin frame = new MovieLogin(app);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -50,7 +58,8 @@ public class MovieLogin extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public MovieLogin() {
+	public MovieLogin(notifyLogin app) {
+		this.app = app;
 		initialize();
 	}
 	
@@ -111,10 +120,11 @@ public class MovieLogin extends JFrame {
 		// 예약할 때 현재 로그인 된 아이디로 
 		id = textFieldId.getText();
 		password = textFieldPassword.getText();
-		MEMNO = dao.findAccount(id, password);
-		if (MEMNO>0) {
+		MEMBER_NO = dao.findAccount(id, password);
+		if (MEMBER_NO>0) {
 			JOptionPane.showMessageDialog(contentPane, "로그인 성공!");
 			// TODO main에 memno 넘기기
+			app.setText();
 			dispose();
 		} else {
 			JOptionPane.showMessageDialog(contentPane, "id와 password를 올바르게 입력했는지 확인하세요");

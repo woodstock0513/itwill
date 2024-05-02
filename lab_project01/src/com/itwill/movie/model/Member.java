@@ -8,12 +8,12 @@ public class Member {
 		
 		public static final String TBL_MEMBERS = "MEMBERS";
 		
-		public static final String COL_MEMID = "MEMID";
-		public static final String COL_MEMNAME= "MEMNAME";
-		public static final String COL_MEMPW = "MEMPW";
-		public static final String COL_MEMNO = "MEMNO";
-		public static final String COL_MEMBIRTH = "MEMBIRTH";
-		public static final String COL_MEMPHONE = "MEMPHONE";
+		public static final String COL_MEMBER_ID = "MEMBER_ID";
+		public static final String COL_MEMBER_NAME= "MEMBER_NAME";
+		public static final String COL_MEMBER_PW = "MEMBER_PW";
+		public static final String COL_MEMBER_NO = "MEMBER_NO";
+		public static final String COL_MEMBER_BIRTH = "MEMBER_BIRTH";
+		public static final String COL_MEMBER_PHONE = "MEMBER_PHONE";
 		
 	}
 	
