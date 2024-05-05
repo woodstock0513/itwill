@@ -18,8 +18,9 @@ public class MemberDao {
 	
 	private MemberDao () {
 		try {
-			DriverManager.registerDriver(new OracleDriver());
-		} catch (SQLException e) {
+//			DriverManager.registerDriver(new OracleDriver());
+			Class.forName("com.mysql.jdbc.Driver");
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
