@@ -105,6 +105,12 @@ public class Movie {
 	public void setMdate(LocalDateTime mdate) {
 		this.movieDate = mdate;
 	}
+
+	@Override
+	public String toString() {
+		return "Movie [movieName=" + movieName + ", movieDate=" + movieDate + "]";
+	}
 	
 
+	
 }

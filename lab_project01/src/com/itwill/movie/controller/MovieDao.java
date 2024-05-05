@@ -1,6 +1,7 @@
 package com.itwill.movie.controller;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,7 +17,8 @@ import com.itwill.movie.model.Movie;
 
 import oracle.jdbc.OracleDriver;
 
-import static com.itwill.movie.OracleJdbc.*;
+import static com.itwill.movie.MysqlJdbc.*;
+//import static com.itwill.movie.OracleJdbc.*;
 import static com.itwill.movie.model.Movie.Entity.*;
 
 public class MovieDao {
@@ -26,7 +28,7 @@ public class MovieDao {
 	private MovieDao() {
 		try {
 //			DriverManager.registerDriver(new OracleDriver());
-			Class.forName("com.mysql.jdbc.Driver");
+			Class.forName("com.mysql.cj.jdbc.Driver");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -122,6 +124,7 @@ public class MovieDao {
 	
 	
 	public List<Movie> readOneTime(int index){
+		System.out.println("index: "+index);
 		
 		List<Movie> result = new ArrayList<>();
 		Connection conn = null;
@@ -132,7 +135,7 @@ public class MovieDao {
 			conn = DriverManager.getConnection(URL, USER, PASSWORD);
 			stmt = conn.prepareStatement(SQL_SELECT_ONE);
 			stmt.setInt(1, index+1);
-			
+
 			rs = stmt.executeQuery();
 			while (rs.next()) {
 				Movie movie = makeMovieFromResultSet(rs);
@@ -231,6 +234,8 @@ public class MovieDao {
 		return tnum;
 		
 	}
+	
+	
 	
 	//tnum으로 좌석 상태 확인 tnum이 아니라 key로 찾아야지 등신아 - seatId
 	public static final String SQL_FIND_STATE = String.format("select %s from %s where %s = ?", COL_STATE, TBL_SEAT, COL_SEAT_ID);
