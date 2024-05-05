@@ -34,6 +34,7 @@ public class CreateAccount extends JFrame {
 	private String password;
 	private String birthdate;
 	private String phone;
+	private JLabel lblNewLabel;
 
 	/**
 	 * Launch the application.
@@ -123,13 +124,13 @@ public class CreateAccount extends JFrame {
 		JLabel lblPhone = new JLabel("Phone");
 		lblPhone.setHorizontalAlignment(SwingConstants.CENTER);
 		lblPhone.setFont(new Font("더잠실 3 Regular", Font.PLAIN, 16));
-		lblPhone.setBounds(12, 311, 106, 41);
+		lblPhone.setBounds(12, 328, 106, 41);
 		contentPane.add(lblPhone);
 		
 		textFieldPhone = new JTextField();
 		textFieldPhone.setFont(new Font("더잠실 3 Regular", Font.PLAIN, 16));
 		textFieldPhone.setColumns(10);
-		textFieldPhone.setBounds(130, 311, 297, 41);
+		textFieldPhone.setBounds(130, 328, 297, 41);
 		contentPane.add(textFieldPhone);
 		
 		btnOk = new JButton("확인");
@@ -143,6 +144,12 @@ public class CreateAccount extends JFrame {
 		btnCheckId.setFont(new Font("더잠실 3 Regular", Font.PLAIN, 14));
 		btnCheckId.setBounds(376, 132, 52, 39);
 		contentPane.add(btnCheckId);
+		
+		lblNewLabel = new JLabel("YY/MM/DD");
+		lblNewLabel.setFont(new Font("더잠실 2 Light", Font.PLAIN, 15));
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setBounds(12, 287, 106, 31);
+		contentPane.add(lblNewLabel);
 	}
 
 	private void createAccount() {
