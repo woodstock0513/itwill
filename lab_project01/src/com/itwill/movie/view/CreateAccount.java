@@ -1,5 +1,6 @@
 package com.itwill.movie.view;
 
+import java.awt.Component;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -35,15 +36,17 @@ public class CreateAccount extends JFrame {
 	private String birthdate;
 	private String phone;
 	private JLabel lblNewLabel;
+	
+	private Component parentComponent;
 
 	/**
 	 * Launch the application.
 	 */
-	public static void showCreateAccount() {
+	public static void showCreateAccount(Component parentComponent) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					CreateAccount frame = new CreateAccount();
+					CreateAccount frame = new CreateAccount(parentComponent);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -55,12 +58,19 @@ public class CreateAccount extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public CreateAccount() {
+	public CreateAccount(Component parentComponent) {
+		this.parentComponent = parentComponent;
 		initialize();
 	}
 	public void initialize() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 456, 485);
+		int x = 700;
+		int y = 300;
+		if (parentComponent != null) {
+			x=parentComponent.getX();
+			y=parentComponent.getY()+150;
+		}
+		setBounds(x,y, 456, 485);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -177,13 +187,37 @@ public class CreateAccount extends JFrame {
 
 	private void checkMultipleId(String id) {
 		String result = dao.isThereSameId(id);
-		if (result.equals("")) {
-			JOptionPane.showMessageDialog(contentPane, "사용 가능한 id 입니다.");
-			isIdChecked = 1;
+		if (checkNumberOrEnglish(id)) {
+			if (result.equals("")) {
+				JOptionPane.showMessageDialog(contentPane, "사용 가능한 id 입니다.");
+				isIdChecked = 1;
+			} else {
+				JOptionPane.showMessageDialog(contentPane, "사용할 수 없는 id 입니다.");
+				isIdChecked = 0;
+			}
 		} else {
-			JOptionPane.showMessageDialog(contentPane, "사용할 수 없는 id 입니다.");
-			isIdChecked = 0;
+			JOptionPane.showMessageDialog(contentPane, "id는 영어로 입력해 주세요");
 		}
 	} 
+	
+	//인터넷 참고
+	private boolean checkNumberOrEnglish(String id) {
+		boolean result = true;
+		char idChar;
+		for (int i = 0; i < id.length(); i++) { 
+			idChar = id.charAt(i); // 입력받은 텍스트에서 문자 하나하나 가져와서 체크
+			if (idChar >= 0x61 && idChar <= 0x7A) {// 영문(소문자) OK!
+		
+			} else if (idChar >=0x41 && idChar <= 0x5A) {// 영문(대문자) OK!
+		
+			} else if (idChar >= 0x30 && idChar <= 0x39) {
+				// 숫자 OK!
+			} else {
+				result = false;// 영문자도 아니고 숫자도 아님!
+			}
+			
+		}
+		return result;
+	}
 
 }

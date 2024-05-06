@@ -1,6 +1,7 @@
 package com.itwill.movie.view;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.EventQueue;
 
 import javax.swing.JButton;
@@ -13,8 +14,6 @@ import com.itwill.movie.controller.MovieDao;
 import com.itwill.movie.model.Movie;
 import com.itwill.movie.view.MovieLogin.notifyLogin;
 
-import java.awt.GridLayout;
-import java.util.List;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -24,16 +23,16 @@ import java.awt.Font;
 public class MovieSeat extends JFrame implements notifyLogin {
 	
 	private class Color {
-		String state;
-		int seatNo;
+		//String state;
+		//int seatNo;
 		
 		public Color() {}
-		
+		/*
 		public Color(String state, int seatNo) {
 			this.state = state;
 			this.seatNo = seatNo;
 		}
-		
+		*/
 		public java.awt.Color setColor(String state, int seatNo) {
 			java.awt.Color color;
 			if (state.equals("ON")) {
@@ -61,15 +60,18 @@ public class MovieSeat extends JFrame implements notifyLogin {
 	private MemberDao memberdao = MemberDao.getInstance();
 	private int seatNo;
 	private JLabel lblWelcome;
+	
+	private Component parentComponent;
+	private notifyLogin app;
 
 	/**
 	 * Launch the application.
 	 */
-	public static void showMovieSeat(int timeNum) {
+	public static void showMovieSeat(int timeNum, Component parentComponent, notifyLogin app) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					MovieSeat frame = new MovieSeat(timeNum);
+					MovieSeat frame = new MovieSeat(timeNum, parentComponent, app);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -81,14 +83,22 @@ public class MovieSeat extends JFrame implements notifyLogin {
 	/**
 	 * Create the frame.
 	 */
-	public MovieSeat(int timeNum) {
+	public MovieSeat(int timeNum, Component parentComponent, notifyLogin app) {
+		this.app = app;
+		this.parentComponent = parentComponent;
 		this.timeNo = timeNum;
 		initialize();
 	}
 	
 	private void initialize() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(700, 300, 389, 320);
+		int x = 700;
+		int y = 300;
+		if (parentComponent != null) {
+			x=parentComponent.getX()+400;
+			y=parentComponent.getY()+100;
+		}
+		setBounds(x, y, 389, 320);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -183,7 +193,7 @@ public class MovieSeat extends JFrame implements notifyLogin {
 				int login = MovieLogin.MEMBER_NO;
 				if (login == 0) {
 					JOptionPane.showMessageDialog(contentPane, "로그인하고 예매하세요.");
-					MovieLogin.showLogin(this);
+					MovieLogin.showLogin(this, parentComponent);
 				} else {
 					//예약확정
 					int updated = dao.updateStateToOff(seatId);
@@ -216,6 +226,8 @@ public class MovieSeat extends JFrame implements notifyLogin {
 		String text = memberdao.findName(MovieLogin.MEMBER_NO);
 		String label = String.format("%s님 반갑습니다!", text);
 		lblWelcome.setText(label);
+		app.setText();
+		
 	}
 	
 	

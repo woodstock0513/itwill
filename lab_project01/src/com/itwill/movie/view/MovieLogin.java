@@ -1,5 +1,6 @@
 package com.itwill.movie.view;
 
+import java.awt.Component;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -38,15 +39,16 @@ public class MovieLogin extends JFrame {
 	public static int MEMBER_NO = 0;
 	
 	private notifyLogin app;
+	private Component parentComponent;
 
 	/**
 	 * Launch the application.
 	 */
-	public static void showLogin(notifyLogin app) {
+	public static void showLogin(notifyLogin app, Component parentComponent) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					MovieLogin frame = new MovieLogin(app);
+					MovieLogin frame = new MovieLogin(app, parentComponent);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -58,14 +60,21 @@ public class MovieLogin extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public MovieLogin(notifyLogin app) {
+	public MovieLogin(notifyLogin app, Component parentComponent) {
+		this.parentComponent = parentComponent;
 		this.app = app;
 		initialize();
 	}
 	
 	public void initialize() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 353, 288);
+		int x = 700;
+		int y = 300;
+		if (parentComponent != null) {
+			x=parentComponent.getX()+50;
+			y=parentComponent.getY()+200;
+		}
+		setBounds(x, y, 353, 288);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -103,7 +112,7 @@ public class MovieLogin extends JFrame {
 		contentPane.add(lblLogin);
 		
 		btnCreate = new JButton("회원가입");
-		btnCreate.addActionListener((e)-> CreateAccount.showCreateAccount());
+		btnCreate.addActionListener((e)-> CreateAccount.showCreateAccount(parentComponent));
 		btnCreate.setFont(new Font("더잠실 3 Regular", Font.PLAIN, 16));
 		btnCreate.setBounds(22, 192, 126, 47);
 		contentPane.add(btnCreate);

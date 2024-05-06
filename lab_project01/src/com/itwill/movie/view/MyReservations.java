@@ -1,5 +1,6 @@
 package com.itwill.movie.view;
 
+import java.awt.Component;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -34,19 +35,20 @@ public class MyReservations extends JFrame {
 	private DefaultTableModel tableModel;
 
 	private MovieDao dao =  MovieDao.getInstance();
+	private Component parentComponent;
 	
-	private static final String[] COLUMN_NAMES = {"영화 이름", "상영시간", "좌석", "예약 시간"};
+	private static final String[] COLUMN_NAMES = {"영화 이름", "상영시간", "좌석 번호", "예약 시간"};
 	private JScrollPane scrollPane;
 	private JButton btnCancel;
 	
 	/**
 	 * Launch the application.
 	 */
-	public static void showMyReservations() {
+	public static void showMyReservations(Component parentComponent) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					MyReservations frame = new MyReservations();
+					MyReservations frame = new MyReservations(parentComponent);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -58,13 +60,20 @@ public class MyReservations extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public MyReservations() {
+	public MyReservations(Component parentComponent) {
+		this.parentComponent = parentComponent;
 		initialize();
 		initializeTable();
 	}
 	public void initialize() {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 553, 427);
+		int x = 700;
+		int y = 300;
+		if (parentComponent != null) {
+			x=parentComponent.getX()-50;
+			y=parentComponent.getY()+150;
+		}
+		setBounds(x,y, 553, 427);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -83,10 +92,11 @@ public class MyReservations extends JFrame {
 		
 		tableModel = new DefaultTableModel(null, COLUMN_NAMES);
 		table = new JTable(tableModel);
-		table.getColumnModel().getColumn(0).setPreferredWidth(15);
-		table.getColumnModel().getColumn(1).setPreferredWidth(20);
-		table.getColumnModel().getColumn(2).setPreferredWidth(5);
-		table.getColumnModel().getColumn(3).setPreferredWidth(20);
+		// 여기 넣어봐야 아무 쓸모 없음
+//		table.getColumnModel().getColumn(0).setPreferredWidth(15);
+//		table.getColumnModel().getColumn(1).setPreferredWidth(20);
+//		table.getColumnModel().getColumn(2).setPreferredWidth(10);
+//		table.getColumnModel().getColumn(3).setPreferredWidth(20);
 		table.getTableHeader().setFont(new Font("더잠실 3 Regular", Font.PLAIN, 14));
 		scrollPane.setViewportView(table);
 		table.setFont(new Font("더잠실 2 Light", Font.PLAIN, 14));
@@ -146,7 +156,7 @@ public class MyReservations extends JFrame {
 		table.getTableHeader().getColumnModel().getColumn(2).setCellRenderer(rdr);
 		table.getColumnModel().getColumn(0).setPreferredWidth(150);
 		table.getColumnModel().getColumn(1).setPreferredWidth(250);
-		table.getColumnModel().getColumn(2).setPreferredWidth(50);
+		table.getColumnModel().getColumn(2).setPreferredWidth(100);
 		table.getColumnModel().getColumn(3).setPreferredWidth(250);
 		
 		

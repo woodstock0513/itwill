@@ -88,10 +88,10 @@ public class MovieMain implements notifyLogin{
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() {
+	public void initialize() {
 		frame = new JFrame();	
 		frame.setTitle("☆인기 영화 할인 예매 사이트☆");
-		frame.setBounds(700, 300, 459, 669);
+		frame.setBounds(700, 200, 459, 669);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
@@ -122,7 +122,7 @@ public class MovieMain implements notifyLogin{
 		lblMovInfo.setBounds(36, 253, 264, 46);
 		frame.getContentPane().add(lblMovInfo);
 
-		btnNext = new JButton("다음");
+		btnNext = new JButton("예매");
 		btnNext.addActionListener((e) -> findMovieSeat());
 		btnNext.setFont(new Font("더잠실 2 Light", Font.PLAIN, 14));
 		btnNext.setBounds(335, 555, 76, 46);
@@ -197,7 +197,7 @@ public class MovieMain implements notifyLogin{
 
 	private void loginOrNot() {
 		if (MovieLogin.MEMBER_NO == 0) {
-			MovieLogin.showLogin(this);
+			MovieLogin.showLogin(this,frame);
 		} else {
 			JOptionPane.showMessageDialog(frame, "이미 로그인 된 상태입니다.");
 		}
@@ -208,7 +208,7 @@ public class MovieMain implements notifyLogin{
 		if (MovieLogin.MEMBER_NO == 0) {
 			JOptionPane.showMessageDialog(frame, "비회원은 예약 현황을 볼 수 없습니다.");
 		} else {
-			MyReservations.showMyReservations();
+			MyReservations.showMyReservations(frame);
 		}
 		
 	}
@@ -227,7 +227,7 @@ public class MovieMain implements notifyLogin{
 		String mname = (String) table.getValueAt(index, 0);
 		LocalDateTime mdate = (LocalDateTime) table.getValueAt(index, 1);
 		int tnum = dao.findTimeNo(mname, mdate);
-		MovieSeat.showMovieSeat(tnum);
+		MovieSeat.showMovieSeat(tnum, frame,this);
 	}
 
 	private void showMovieInfo() {
