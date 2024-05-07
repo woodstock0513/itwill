@@ -17,8 +17,8 @@ import com.itwill.movie.model.Movie;
 
 import oracle.jdbc.OracleDriver;
 
-import static com.itwill.movie.MysqlJdbc.*;
-//import static com.itwill.movie.OracleJdbc.*;
+//import static com.itwill.movie.MysqlJdbc.*;
+import static com.itwill.movie.OracleJdbc.*;
 import static com.itwill.movie.model.Movie.Entity.*;
 
 public class MovieDao {
@@ -27,8 +27,8 @@ public class MovieDao {
 	
 	private MovieDao() {
 		try {
-//			DriverManager.registerDriver(new OracleDriver());
-			Class.forName("com.mysql.cj.jdbc.Driver");
+			DriverManager.registerDriver(new OracleDriver());
+//			Class.forName("com.mysql.cj.jdbc.Driver");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -117,15 +117,16 @@ public class MovieDao {
 	}
 	
 	//영화 하나의 모든시간을 읽는 메서드
-	public static final String SQL_SELECT_ONE = String.format("select %s.%s, %s.%s from %s, %s "//공백주의
-			+ "where %s.%s = %s.%s and %s.%s = ? order by %s",
-			TBL_TIMES,COL_MOVIE_NAME,TBL_TIMES, COL_MOVIE_DATE,TBL_TIMES, TBL_MOVIES,
-			TBL_TIMES,COL_MOVIE_NAME,TBL_MOVIES,COL_MOVIE_NAME, TBL_MOVIES, COL_MOVIE_NO,COL_MOVIE_DATE );
+//	public static final String SQL_SELECT_ONE = String.format("select %s.%s, %s.%s from %s, %s "//공백주의
+//			+ "where %s.%s = %s.%s and %s.%s = ? order by %s",
+//			TBL_TIMES,COL_MOVIE_NAME,TBL_TIMES, COL_MOVIE_DATE,TBL_TIMES, TBL_MOVIES,
+//			TBL_TIMES,COL_MOVIE_NAME,TBL_MOVIES,COL_MOVIE_NAME, TBL_MOVIES, COL_MOVIE_NO,COL_MOVIE_DATE );
+	
+	public static final String SQL_SELECT_ONE = String.format("select %s, %s from %s where %s = ? order by %s", 
+			COL_MOVIE_NAME, COL_MOVIE_DATE, TBL_TIMES, COL_MOVIE_NO, COL_MOVIE_DATE);
 	
 	
 	public List<Movie> readOneTime(int index){
-		System.out.println("index: "+index);
-		
 		List<Movie> result = new ArrayList<>();
 		Connection conn = null;
 		PreparedStatement stmt = null;
@@ -135,7 +136,6 @@ public class MovieDao {
 			conn = DriverManager.getConnection(URL, USER, PASSWORD);
 			stmt = conn.prepareStatement(SQL_SELECT_ONE);
 			stmt.setInt(1, index+1);
-
 			rs = stmt.executeQuery();
 			while (rs.next()) {
 				Movie movie = makeMovieFromResultSet(rs);
@@ -146,7 +146,6 @@ public class MovieDao {
 		} finally {
 			closeResources(conn, stmt, rs);
 		}
-		
 		return result;
 		
 	}

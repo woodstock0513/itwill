@@ -12,18 +12,30 @@ import com.itwill.movie.controller.MemberDao;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+
 import java.awt.Font;
+import java.sql.SQLDataException;
+import java.util.regex.Pattern;
+
 import javax.swing.JTextField;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 
 public class CreateAccount extends JFrame {
 
 	private static final long serialVersionUID = 1L;
+	private static String[] COMBO_YEAR = new String[65];
+	private static String[] COMBO_MONTH = new String[13];
+	private static String[] COMBO_DAY = new String[32];
+	
+
 	private JPanel contentPane;
 	private JTextField textFieldName;
 	private JTextField textFieldId;
 	private JTextField textFieldPassword;
-	private JTextField textFieldBirthdate;
+//	private JTextField textFieldBirthdate;
 	private JTextField textFieldPhone;
 	private JButton btnOk;
 	private JButton btnCheckId;
@@ -35,9 +47,11 @@ public class CreateAccount extends JFrame {
 	private String password;
 	private String birthdate;
 	private String phone;
-	private JLabel lblNewLabel;
 	
 	private Component parentComponent;
+	private JComboBox<String> comboBoxDay;
+	private JComboBox<String> comboBoxMonth;
+	private JComboBox<String> comboBoxYear;
 
 	/**
 	 * Launch the application.
@@ -70,7 +84,7 @@ public class CreateAccount extends JFrame {
 			x=parentComponent.getX();
 			y=parentComponent.getY()+150;
 		}
-		setBounds(x,y, 456, 485);
+		setBounds(x,y, 456, 473);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
@@ -125,28 +139,28 @@ public class CreateAccount extends JFrame {
 		lblBirthdate.setBounds(12, 250, 106, 41);
 		contentPane.add(lblBirthdate);
 		
-		textFieldBirthdate = new JTextField();
-		textFieldBirthdate.setFont(new Font("더잠실 3 Regular", Font.PLAIN, 16));
-		textFieldBirthdate.setColumns(10);
-		textFieldBirthdate.setBounds(130, 250, 297, 41);
-		contentPane.add(textFieldBirthdate);
+//		textFieldBirthdate = new JTextField();
+//		textFieldBirthdate.setFont(new Font("더잠실 3 Regular", Font.PLAIN, 16));
+//		textFieldBirthdate.setColumns(10);
+//		textFieldBirthdate.setBounds(130, 250, 297, 16);
+//		contentPane.add(textFieldBirthdate);
 		
 		JLabel lblPhone = new JLabel("Phone");
 		lblPhone.setHorizontalAlignment(SwingConstants.CENTER);
 		lblPhone.setFont(new Font("더잠실 3 Regular", Font.PLAIN, 16));
-		lblPhone.setBounds(12, 328, 106, 41);
+		lblPhone.setBounds(12, 314, 106, 41);
 		contentPane.add(lblPhone);
 		
 		textFieldPhone = new JTextField();
 		textFieldPhone.setFont(new Font("더잠실 3 Regular", Font.PLAIN, 16));
 		textFieldPhone.setColumns(10);
-		textFieldPhone.setBounds(130, 328, 297, 41);
+		textFieldPhone.setBounds(130, 314, 297, 41);
 		contentPane.add(textFieldPhone);
 		
 		btnOk = new JButton("확인");
 		btnOk.addActionListener((e)-> createAccount());
 		btnOk.setFont(new Font("더잠실 3 Regular", Font.PLAIN, 16));
-		btnOk.setBounds(130, 379, 176, 46);
+		btnOk.setBounds(130, 372, 176, 46);
 		contentPane.add(btnOk);
 		
 		btnCheckId = new JButton("V");
@@ -155,11 +169,43 @@ public class CreateAccount extends JFrame {
 		btnCheckId.setBounds(376, 132, 52, 39);
 		contentPane.add(btnCheckId);
 		
-		lblNewLabel = new JLabel("YY/MM/DD");
-		lblNewLabel.setFont(new Font("더잠실 2 Light", Font.PLAIN, 15));
-		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setBounds(12, 287, 106, 31);
-		contentPane.add(lblNewLabel);
+		
+		COMBO_DAY[0] = "DD";
+		for (int i = 1; i<32; i++) {
+			COMBO_DAY[i] = Integer.toString(i);
+		}
+		COMBO_MONTH[0] = "MM";
+		for (int i = 1; i<13; i++) {
+			COMBO_MONTH[i] = Integer.toString(i);
+		}
+		COMBO_YEAR[0] = "YYYY";
+		for (int i = 1; i<65; i++) {
+			COMBO_YEAR[i] = Integer.toString(i+1959);
+		}
+	
+		comboBoxYear = new JComboBox<>();
+		DefaultComboBoxModel<String> yearModel = new DefaultComboBoxModel<>(COMBO_YEAR);
+		comboBoxYear.setModel(yearModel);
+		comboBoxYear.setBounds(130, 250, 95, 41);
+		comboBoxYear.setFont(new Font("더잠실 2 Light", Font.PLAIN, 15));
+		contentPane.add(comboBoxYear);
+		
+		comboBoxMonth = new JComboBox<>();
+		DefaultComboBoxModel<String> monthModel = new DefaultComboBoxModel<>(COMBO_MONTH);
+		comboBoxMonth.setModel(monthModel);
+		comboBoxMonth.setBounds(237, 250, 89, 41);
+		comboBoxMonth.setFont(new Font("더잠실 2 Light", Font.PLAIN, 15));
+		contentPane.add(comboBoxMonth);
+		
+		comboBoxDay = new JComboBox<>();
+		DefaultComboBoxModel<String> dayModel = new DefaultComboBoxModel<>(COMBO_DAY);
+		comboBoxDay.setModel(dayModel);
+		comboBoxDay.setBounds(338, 250, 89, 41);
+		comboBoxDay.setFont(new Font("더잠실 2 Light", Font.PLAIN, 15));
+		contentPane.add(comboBoxDay);
+		
+		UIManager.put("OptionPane.messageFont", new Font("더잠실 3 Regular", Font.PLAIN, 14));
+		UIManager.put("OptionPane.buttonFont", new Font("더잠실 3 Regular", Font.PLAIN, 14));
 	}
 
 	private void createAccount() {
@@ -167,17 +213,41 @@ public class CreateAccount extends JFrame {
 			JOptionPane.showMessageDialog(contentPane, "id 중복 체크를 해야합니다.");
 			return;
 		}
-		birthdate = textFieldBirthdate.getText();
+		
+		if (comboBoxYear.getSelectedIndex()==0 || comboBoxMonth.getSelectedIndex()==0 || comboBoxDay.getSelectedIndex()==0) {
+			JOptionPane.showMessageDialog(contentPane, "생년월일을 모두 선택하세요.");
+			return;
+		}
+		int year = comboBoxYear.getSelectedIndex() +1960;
+		int month = comboBoxMonth.getSelectedIndex() + 1;
+		int day = comboBoxDay.getSelectedIndex()+1;
+		birthdate = String.format("%d%02d%02d", year, month, day);
 		id = textFieldId.getText();
 		name = textFieldName.getText();
 		password = textFieldPassword.getText();
 		phone = textFieldPhone.getText();
-		
-		if (birthdate.isBlank() || id.isBlank() || name.isBlank() || password.isBlank()
+		if (id.isBlank() || name.isBlank() || password.isBlank()
 				|| phone.isBlank()) { // 공란인 정보가 하나라도 있을 때
 			JOptionPane.showMessageDialog(contentPane, "모든 정보를 다 입력하세요.");
 			return;
 		}
+		if (!checkNumberOrEnglish(password)) {
+			JOptionPane.showMessageDialog(contentPane, "password는 영어로 입력해 주세요");
+			return;
+		}
+		if (!isNumberic(birthdate)) { // 생일이 숫자인지 체크
+			JOptionPane.showMessageDialog(contentPane, "생일은 숫자로만 입력하세요.");
+			return;
+		}
+		String phonePattern = "^\\d{3}-\\d{3,4}-\\d{4}$";
+		if (!Pattern.matches(phonePattern, phone)) { //전번이 숫자인지 체크
+			JOptionPane.showMessageDialog(contentPane, "전화번호는 010-0000-0000 형식으로 입력하세요.");
+			return;
+		}
+		
+
+	
+	
 		int result = dao.createNewAccount(name, id, password, birthdate, phone);
 		if (result == 1) {
 			JOptionPane.showMessageDialog(contentPane, "회원 가입에 성공했습니다.");
@@ -220,4 +290,8 @@ public class CreateAccount extends JFrame {
 		return result;
 	}
 
+
+    public static boolean isNumberic(String str) {
+        return str.chars().allMatch(Character::isDigit);
+      }
 }

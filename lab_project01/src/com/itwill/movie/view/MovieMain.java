@@ -21,11 +21,14 @@ import com.itwill.movie.view.MovieLogin.notifyLogin;
 
 import java.awt.Font;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 
 
 public class MovieMain implements notifyLogin{
@@ -60,6 +63,8 @@ public class MovieMain implements notifyLogin{
 	private JButton btnLogout;
 	private JLabel lblWelcome;
 	private JScrollPane scrollPane;
+	
+	private ArrayList<LocalDateTime> times = new ArrayList<>();
 
 	/**
 	 * Launch the application.
@@ -96,17 +101,17 @@ public class MovieMain implements notifyLogin{
 		frame.getContentPane().setLayout(null);
 		
 		lblMovie1 = new JLabel(new ImageIcon(IMAGES[0]));
-		lblMovie1.setText("1");
+		lblMovie1.setText("");
 		lblMovie1.setBounds(36, 64, 104, 128);
 		frame.getContentPane().add(lblMovie1);
 		
 		lblMovie2 = new JLabel(new ImageIcon(IMAGES[1]));
-		lblMovie2.setText("2");
+		lblMovie2.setText("");
 		lblMovie2.setBounds(167, 64, 104, 128);
 		frame.getContentPane().add(lblMovie2);
 		
 		lblMovie3 = new JLabel(new ImageIcon(IMAGES[2]));
-		lblMovie3.setText("3");
+		lblMovie3.setText("");
 		lblMovie3.setBounds(307, 64, 104, 128);
 		frame.getContentPane().add(lblMovie3);
 		
@@ -157,6 +162,7 @@ public class MovieMain implements notifyLogin{
 		frame.getContentPane().add(scrollPane);
 		
 		tableModel = new DefaultTableModel(null, COLUMN_NAMES);
+		
 		table = new JTable(tableModel);
 
 		scrollPane.setViewportView(table);
@@ -164,6 +170,8 @@ public class MovieMain implements notifyLogin{
 		table.getTableHeader().setFont(new Font("더잠실 3 Regular", Font.PLAIN, 14));
 		table.setFont(new Font("더잠실 2 Light", Font.PLAIN, 16));
 		table.setModel(tableModel);
+		
+		
 		
 		btnLogout = new JButton("로그아웃");
 		btnLogout.addActionListener((e)-> logout());
@@ -183,6 +191,9 @@ public class MovieMain implements notifyLogin{
 		lblWelcome.setBounds(36, 10, 376, 36);
 		frame.getContentPane().add(lblWelcome);
 		
+		UIManager.put("OptionPane.messageFont", new Font("더잠실 3 Regular", Font.PLAIN, 14));
+		UIManager.put("OptionPane.buttonFont", new Font("더잠실 3 Regular", Font.PLAIN, 14));
+
 	}
 	
 	
@@ -192,6 +203,7 @@ public class MovieMain implements notifyLogin{
 		} else {
 			MovieLogin.MEMBER_NO = 0;
 			JOptionPane.showMessageDialog(frame, "로그아웃 성공!");
+			lblWelcome.setText("");
 		}
 	}
 
@@ -217,15 +229,14 @@ public class MovieMain implements notifyLogin{
 		// 테이블 어디 눌렀는지 확인 -> 인덱스 가져와서 seat이랑 연동
 		int index = table.getSelectedRow();
 		if (index==-1) {
-			JLabel label = new JLabel("상영시간을 선택하세요");
-			label.setFont(new Font("더잠실 3 Regular", Font.PLAIN, 15));
-			JOptionPane.showMessageDialog(frame, label, "경고", JOptionPane.WARNING_MESSAGE);
+			JOptionPane.showMessageDialog(frame, "상영시간을 선택하세요", "경고", JOptionPane.WARNING_MESSAGE);
 			return;
 		}
 		
 		//index로 tnum찾기 -> 영화 제목이랑 시간 비교해서 찾아야할듯
 		String mname = (String) table.getValueAt(index, 0);
-		LocalDateTime mdate = (LocalDateTime) table.getValueAt(index, 1);
+//		LocalDateTime mdate = (LocalDateTime) table.getValueAt(index, 1);
+		LocalDateTime mdate = times.get(index);
 		int tnum = dao.findTimeNo(mname, mdate);
 		MovieSeat.showMovieSeat(tnum, frame,this);
 	}
@@ -260,13 +271,19 @@ public class MovieMain implements notifyLogin{
 	private void initializeTable() {
 		List<Movie> result = dao.readAllTimes();
 		resetTable(result);
-		
+		for (Movie m : result) {
+			times.add(m.getMovieDate());
+		}
 	}
 	
 	private void resetTable(List<Movie> movies) {
-		tableModel = new DefaultTableModel(null, COLUMN_NAMES);
+		tableModel = new DefaultTableModel(null, COLUMN_NAMES) {
+        public boolean isCellEditable(int rowIndex, int mColIndex) {
+                return false;
+            }
+        };
 		for (Movie m : movies) {
-			Object[] row = {m.getMovieName(), m.getMovieDate()};
+			Object[] row = {m.getMovieName(), m.getMovieDate().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm"))};
 			tableModel.addRow(row);
 		}
 		table.setModel(tableModel);
@@ -282,6 +299,6 @@ public class MovieMain implements notifyLogin{
 	public void setText() {
 		String text = memberdao.findName(MovieLogin.MEMBER_NO);
 		String label = String.format("%s님 반갑습니다!", text);
-		lblWelcome.setText(label);;
+		lblWelcome.setText(label);
 	}
 }

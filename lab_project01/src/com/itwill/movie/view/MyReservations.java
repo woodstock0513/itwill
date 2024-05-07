@@ -18,9 +18,11 @@ import javax.swing.JOptionPane;
 import java.awt.Font;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import javax.swing.JButton;
@@ -83,11 +85,11 @@ public class MyReservations extends JFrame {
 		JLabel lblTitle = new JLabel("내 예매 현황");
 		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTitle.setFont(new Font("더잠실 3 Regular", Font.PLAIN, 18));
-		lblTitle.setBounds(12, 10, 513, 32);
+		lblTitle.setBounds(12, 10, 513, 48);
 		contentPane.add(lblTitle);
 		
 		scrollPane = new JScrollPane();
-		scrollPane.setBounds(12, 68, 513, 268);
+		scrollPane.setBounds(12, 68, 513, 251);
 		contentPane.add(scrollPane);
 		
 		tableModel = new DefaultTableModel(null, COLUMN_NAMES);
@@ -103,9 +105,13 @@ public class MyReservations extends JFrame {
 		table.setModel(tableModel);
 		
 		btnCancel = new JButton("예매 취소");
+		btnCancel.setFont(new Font("더잠실 2 Light", Font.PLAIN, 14));
 		btnCancel.addActionListener((e) -> cancelReservation());
-		btnCancel.setBounds(352, 346, 173, 30);
+		btnCancel.setBounds(323, 329, 202, 47);
 		contentPane.add(btnCancel);
+		
+		UIManager.put("OptionPane.messageFont", new Font("더잠실 3 Regular", Font.PLAIN, 14));
+		UIManager.put("OptionPane.buttonFont", new Font("더잠실 3 Regular", Font.PLAIN, 14));
 	}
 	
 	private void cancelReservation() {
@@ -142,9 +148,13 @@ public class MyReservations extends JFrame {
 		
 	}
 	private void resetTable(List<Movie> movies) {
-		tableModel = new DefaultTableModel(null, COLUMN_NAMES);
+		tableModel = new DefaultTableModel(null, COLUMN_NAMES) {
+	        public boolean isCellEditable(int rowIndex, int mColIndex) {
+	                return false;
+	            }
+	        };
 		for (Movie m : movies) {
-			Object[] row = {m.getMovieName(), m.getMovieDate(), m.getSeatNo(), m.getReservtime()};
+			Object[] row = {m.getMovieName(), m.getMovieDate().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm")), m.getSeatNo(), m.getReservtime().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm"))};
 			tableModel.addRow(row);
 		}
 		table.setModel(tableModel);
@@ -154,6 +164,7 @@ public class MyReservations extends JFrame {
 		table.getTableHeader().getColumnModel().getColumn(0).setCellRenderer(rdr);
 		table.getTableHeader().getColumnModel().getColumn(1).setCellRenderer(rdr);
 		table.getTableHeader().getColumnModel().getColumn(2).setCellRenderer(rdr);
+		table.getTableHeader().getColumnModel().getColumn(3).setCellRenderer(rdr);
 		table.getColumnModel().getColumn(0).setPreferredWidth(150);
 		table.getColumnModel().getColumn(1).setPreferredWidth(250);
 		table.getColumnModel().getColumn(2).setPreferredWidth(100);

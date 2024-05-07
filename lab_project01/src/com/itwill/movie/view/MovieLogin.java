@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.border.EmptyBorder;
 
 import com.itwill.movie.controller.MemberDao;
@@ -16,6 +17,8 @@ import javax.swing.JOptionPane;
 import java.awt.FlowLayout;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+
 import java.awt.Font;
 import javax.swing.JButton;
 
@@ -40,6 +43,7 @@ public class MovieLogin extends JFrame {
 	
 	private notifyLogin app;
 	private Component parentComponent;
+	private JPasswordField passwordField;
 
 	/**
 	 * Launch the application.
@@ -99,11 +103,15 @@ public class MovieLogin extends JFrame {
 		lblPw.setBounds(12, 137, 93, 36);
 		contentPane.add(lblPw);
 		
-		textFieldPassword = new JTextField();
-		textFieldPassword.setFont(new Font("더잠실 2 Light", Font.PLAIN, 15));
-		textFieldPassword.setColumns(10);
-		textFieldPassword.setBounds(127, 137, 196, 36);
-		contentPane.add(textFieldPassword);
+		passwordField = new JPasswordField();
+		passwordField.setBounds(127, 139, 196, 36);
+		passwordField.setEchoChar('*');
+		contentPane.add(passwordField);
+//		textFieldPassword = new JTextField();
+//		textFieldPassword.setFont(new Font("더잠실 2 Light", Font.PLAIN, 15));
+//		textFieldPassword.setColumns(10);
+//		textFieldPassword.setBounds(127, 137, 196, 36);
+//		contentPane.add(textFieldPassword);
 		
 		JLabel lblLogin = new JLabel("LOGIN");
 		lblLogin.setHorizontalAlignment(SwingConstants.CENTER);
@@ -122,13 +130,17 @@ public class MovieLogin extends JFrame {
 		btnOk.setFont(new Font("더잠실 3 Regular", Font.PLAIN, 16));
 		btnOk.setBounds(197, 192, 126, 47);
 		contentPane.add(btnOk);
+		
+		UIManager.put("OptionPane.messageFont", new Font("더잠실 3 Regular", Font.PLAIN, 14));
+		UIManager.put("OptionPane.buttonFont", new Font("더잠실 3 Regular", Font.PLAIN, 14));
 	}
 
 	private void checkLogin() {
 		// TODO 아디 비번 모두 입력헀는지 & 일치하는 지 확인, 
 		// 예약할 때 현재 로그인 된 아이디로 
 		id = textFieldId.getText();
-		password = textFieldPassword.getText();
+//		password = textFieldPassword.getText();
+		password = new String(passwordField.getPassword());
 		MEMBER_NO = dao.findAccount(id, password);
 		if (MEMBER_NO>0) {
 			JOptionPane.showMessageDialog(contentPane, "로그인 성공!");

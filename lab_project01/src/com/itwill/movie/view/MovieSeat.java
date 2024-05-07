@@ -18,7 +18,10 @@ import com.itwill.movie.view.MovieLogin.notifyLogin;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+
 import java.awt.Font;
+import java.time.format.DateTimeFormatter;
 
 public class MovieSeat extends JFrame implements notifyLogin {
 	
@@ -165,6 +168,9 @@ public class MovieSeat extends JFrame implements notifyLogin {
 		lblWelcome.setFont(new Font("더잠실 3 Regular", Font.PLAIN, 15));
 		lblWelcome.setBounds(12, 10, 348, 32);
 		contentPane.add(lblWelcome);
+		
+		UIManager.put("OptionPane.messageFont", new Font("더잠실 3 Regular", Font.PLAIN, 14));
+		UIManager.put("OptionPane.buttonFont", new Font("더잠실 3 Regular", Font.PLAIN, 14));
 
 	}
 	
@@ -217,7 +223,7 @@ public class MovieSeat extends JFrame implements notifyLogin {
 	private String getInfo(int index) {
 		//index+1에 해당하는 열의 영화 이름, 영화 시간 알아오기
 		Movie movie = dao.readOneNameAndDate(index);
-		String result = "<html>선택한 영화 : "+movie.getMovieName() + "<br> 상영시간 : " + movie.getMovieDate()+"</html>";
+		String result = "<html>선택한 영화 : "+movie.getMovieName() + "<br> 상영시간 : " + movie.getMovieDate().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm"))+"</html>";
 		return result;
 	}
 
