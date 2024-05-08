@@ -22,6 +22,7 @@ import com.itwill.movie.view.MovieLogin.notifyLogin;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -97,22 +98,28 @@ public class MovieMain implements notifyLogin{
 		frame.setBounds(700, 200, 459, 669);
 	      //창 아이콘
 	      Toolkit kit = Toolkit.getDefaultToolkit();
-	      Image img = kit.getImage("images/panda.png");
+	      URL panda = getClass().getClassLoader().getResource("panda.png");
+	      Image img = kit.getImage(panda);
 	      frame.setIconImage(img);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
-		lblMovie1 = new JLabel(new ImageIcon(IMAGES[0]));
+		
+		ImageIcon image1 = new ImageIcon(getClass().getClassLoader().getResource("mov1.jpg"));
+		lblMovie1 = new JLabel(image1);
 		lblMovie1.setText("");
 		lblMovie1.setBounds(36, 64, 104, 128);
 		frame.getContentPane().add(lblMovie1);
 		
-		lblMovie2 = new JLabel(new ImageIcon(IMAGES[1]));
+		ImageIcon image2 = new ImageIcon(getClass().getClassLoader().getResource("mov2.jpg"));
+		lblMovie2 = new JLabel(image2);
 		lblMovie2.setText("");
 		lblMovie2.setBounds(167, 64, 104, 128);
 		frame.getContentPane().add(lblMovie2);
 		
-		lblMovie3 = new JLabel(new ImageIcon(IMAGES[2]));
+		
+		ImageIcon image3 = new ImageIcon(getClass().getClassLoader().getResource("mov3.jpg"));
+		lblMovie3 = new JLabel(image3);
 		lblMovie3.setText("");
 		lblMovie3.setBounds(307, 64, 104, 128);
 		frame.getContentPane().add(lblMovie3);
