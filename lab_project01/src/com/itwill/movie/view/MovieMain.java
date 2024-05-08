@@ -20,6 +20,8 @@ import com.itwill.movie.model.Movie;
 import com.itwill.movie.view.MovieLogin.notifyLogin;
 
 import java.awt.Font;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -97,6 +99,10 @@ public class MovieMain implements notifyLogin{
 		frame = new JFrame();	
 		frame.setTitle("☆인기 영화 할인 예매 사이트☆");
 		frame.setBounds(700, 200, 459, 669);
+	      //창 아이콘
+	      Toolkit kit = Toolkit.getDefaultToolkit();
+	      Image img = kit.getImage("images/판다곰아이콘.png");
+	      frame.setIconImage(img);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		

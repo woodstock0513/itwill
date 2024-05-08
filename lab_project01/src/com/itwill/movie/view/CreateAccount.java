@@ -218,10 +218,11 @@ public class CreateAccount extends JFrame {
 			JOptionPane.showMessageDialog(contentPane, "생년월일을 모두 선택하세요.");
 			return;
 		}
-		int year = comboBoxYear.getSelectedIndex() +1960;
-		int month = comboBoxMonth.getSelectedIndex() + 1;
-		int day = comboBoxDay.getSelectedIndex()+1;
+		int year = comboBoxYear.getSelectedIndex() +1959;
+		int month = comboBoxMonth.getSelectedIndex();
+		int day = comboBoxDay.getSelectedIndex();
 		birthdate = String.format("%d%02d%02d", year, month, day);
+		System.out.println(birthdate);
 		id = textFieldId.getText();
 		name = textFieldName.getText();
 		password = textFieldPassword.getText();
