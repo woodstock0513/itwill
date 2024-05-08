@@ -234,10 +234,10 @@ public class CreateAccount extends JFrame {
 			JOptionPane.showMessageDialog(contentPane, "password는 영어로 입력해 주세요");
 			return;
 		}
-		if (!isNumberic(birthdate)) { // 생일이 숫자인지 체크
-			JOptionPane.showMessageDialog(contentPane, "생일은 숫자로만 입력하세요.");
-			return;
-		}
+//		if (!isNumberic(birthdate)) { // 생일이 숫자인지 체크
+//			JOptionPane.showMessageDialog(contentPane, "생일은 숫자로만 입력하세요.");
+//			return;
+//		}
 		String phonePattern = "^\\d{3}-\\d{3,4}-\\d{4}$";
 		if (!Pattern.matches(phonePattern, phone)) { //전번이 숫자인지 체크
 			JOptionPane.showMessageDialog(contentPane, "전화번호는 010-0000-0000 형식으로 입력하세요.");
@@ -290,7 +290,7 @@ public class CreateAccount extends JFrame {
 	}
 
 
-    public static boolean isNumberic(String str) {
-        return str.chars().allMatch(Character::isDigit);
-      }
+//    public static boolean isNumberic(String str) {
+//        return str.chars().allMatch(Character::isDigit);
+//      }
 }

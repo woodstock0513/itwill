@@ -127,7 +127,7 @@ public class MyReservations extends JFrame {
 			int seatNo = result.get(index).getSeatNo();
 			int seatId = ((timeNo-1) * 5 + seatNo); // 겨우 찾음 아오
 			String info = "<html>영화 : "+result.get(index).getMovieName() + "<br> 상영시간 : " 
-			+ result.get(index).getMovieDate()+"<html> <br> 선택한 좌석 : "+seatNo+"</html>";
+			+ result.get(index).getMovieDate().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm"))+"<html> <br> 선택한 좌석 : "+seatNo+"</html>";
 			int choice = JOptionPane.showConfirmDialog(contentPane, 
 					info+ "<html> <br> 내역을 취소하시겠습니까? </html>", "확인",
 					JOptionPane.OK_CANCEL_OPTION);
