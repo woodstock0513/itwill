@@ -15,7 +15,6 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
 import java.awt.Font;
-import java.sql.SQLDataException;
 import java.util.regex.Pattern;
 
 import javax.swing.JTextField;
@@ -222,7 +221,6 @@ public class CreateAccount extends JFrame {
 		int month = comboBoxMonth.getSelectedIndex();
 		int day = comboBoxDay.getSelectedIndex();
 		birthdate = String.format("%d%02d%02d", year, month, day);
-		System.out.println(birthdate);
 		id = textFieldId.getText();
 		name = textFieldName.getText();
 		password = textFieldPassword.getText();

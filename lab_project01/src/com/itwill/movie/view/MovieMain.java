@@ -26,8 +26,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
@@ -61,12 +59,10 @@ public class MovieMain implements notifyLogin{
 	private String info = "영화를 고르세요.";
 	private JButton btnSeeAll;
 	private JButton btnLogin;
-	private int memno;
 	private JButton btnLogout;
 	private JLabel lblWelcome;
 	private JScrollPane scrollPane;
 	
-	private ArrayList<LocalDateTime> times = new ArrayList<>();
 
 	/**
 	 * Launch the application.
@@ -101,7 +97,7 @@ public class MovieMain implements notifyLogin{
 		frame.setBounds(700, 200, 459, 669);
 	      //창 아이콘
 	      Toolkit kit = Toolkit.getDefaultToolkit();
-	      Image img = kit.getImage("images/판다곰아이콘.png");
+	      Image img = kit.getImage("images/panda.png");
 	      frame.setIconImage(img);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
@@ -158,7 +154,7 @@ public class MovieMain implements notifyLogin{
 		frame.getContentPane().add(btnSeeAll);
 		
 		btnLogin = new JButton("로그인");
-		btnLogin.addActionListener((e)-> loginOrNot());
+		btnLogin.addActionListener((e)-> login());
 		btnLogin.setFont(new Font("더잠실 2 Light", Font.PLAIN, 14));
 		btnLogin.setBounds(29, 555, 89, 46);
 		frame.getContentPane().add(btnLogin);
@@ -213,7 +209,7 @@ public class MovieMain implements notifyLogin{
 		}
 	}
 
-	private void loginOrNot() {
+	private void login() {
 		if (MovieLogin.MEMBER_NO == 0) {
 			MovieLogin.showLogin(this,frame);
 		} else {
@@ -242,7 +238,11 @@ public class MovieMain implements notifyLogin{
 		//index로 tnum찾기 -> 영화 제목이랑 시간 비교해서 찾아야할듯
 		String mname = (String) table.getValueAt(index, 0);
 //		LocalDateTime mdate = (LocalDateTime) table.getValueAt(index, 1);
-		LocalDateTime mdate = times.get(index);
+		
+		String movieDate = (String) table.getValueAt(index, 1);
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");
+		LocalDateTime mdate = LocalDateTime.parse(movieDate, formatter);
+//		LocalDateTime mdate = times.get(index);
 		int tnum = dao.findTimeNo(mname, mdate);
 		MovieSeat.showMovieSeat(tnum, frame,this);
 	}
@@ -277,9 +277,6 @@ public class MovieMain implements notifyLogin{
 	private void initializeTable() {
 		List<Movie> result = dao.readAllTimes();
 		resetTable(result);
-		for (Movie m : result) {
-			times.add(m.getMovieDate());
-		}
 	}
 	
 	private void resetTable(List<Movie> movies) {

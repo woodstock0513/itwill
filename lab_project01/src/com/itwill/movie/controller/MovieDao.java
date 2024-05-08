@@ -17,8 +17,8 @@ import com.itwill.movie.model.Movie;
 
 import oracle.jdbc.OracleDriver;
 
-import static com.itwill.movie.MysqlJdbc.*;
-//import static com.itwill.movie.OracleJdbc.*;
+//import static com.itwill.movie.MysqlJdbc.*;
+import static com.itwill.movie.OracleJdbc.*;
 import static com.itwill.movie.model.Movie.Entity.*;
 
 public class MovieDao {
@@ -27,8 +27,8 @@ public class MovieDao {
 	
 	private MovieDao() {
 		try {
-//			DriverManager.registerDriver(new OracleDriver());
-			Class.forName("com.mysql.cj.jdbc.Driver");
+			DriverManager.registerDriver(new OracleDriver());
+//			Class.forName("com.mysql.cj.jdbc.Driver");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -9,8 +9,8 @@ import java.sql.Statement;
 import java.time.LocalDateTime;
 
 import oracle.jdbc.OracleDriver;
-//import static com.itwill.movie.OracleJdbc.*;
-import static com.itwill.movie.MysqlJdbc.*;
+import static com.itwill.movie.OracleJdbc.*;
+//import static com.itwill.movie.MysqlJdbc.*;
 import static com.itwill.movie.model.Member.Entity.*;
 
 public class MemberDao {
@@ -19,8 +19,8 @@ public class MemberDao {
 	
 	private MemberDao () {
 		try {
-//			DriverManager.registerDriver(new OracleDriver());
-			Class.forName("com.mysql.cj.jdbc.Driver");
+			DriverManager.registerDriver(new OracleDriver());
+//			Class.forName("com.mysql.cj.jdbc.Driver");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
